@@ -1,16 +1,17 @@
 <?php
 
+use DevNoKage\App;
+use DevNoKage\Enums\ClassName;
 use DevNoKage\Enums\KeyRoute;
-use DevNoKage\ErrorController;
 
 $routes = [
     '/' => [
-        KeyRoute::CONTROLLER->value => ErrorController::class,
+        KeyRoute::CONTROLLER->value => App::getDependencie(ClassName::ERROR_CONTROLLER),
         KeyRoute::METHOD->value => '_404',
         KeyRoute::MIDDLEWARE->value => []
     ],
     '/404' => [
-        KeyRoute::CONTROLLER->value => ErrorController::class,
+        KeyRoute::CONTROLLER->value => App::getDependencie(ClassName::ERROR_CONTROLLER),
         KeyRoute::METHOD->value => '_404',
         KeyRoute::MIDDLEWARE->value => []
     ]

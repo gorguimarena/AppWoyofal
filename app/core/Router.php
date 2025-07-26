@@ -22,10 +22,6 @@ class Router
                 array_shift($matches);
                 $params = array_combine($paramNames[1], $matches);
 
-                $controllerName = $info[KeyRoute::CONTROLLER->value];
-                $action = $info[KeyRoute::METHOD->value];
-
-
                 if (isset($info[KeyRoute::MIDDLEWARE->value]) && is_array($info[KeyRoute::MIDDLEWARE->value])) {
                     foreach ($info[KeyRoute::MIDDLEWARE->value] as $middlewareClass) {
                         if (class_exists($middlewareClass) && method_exists($middlewareClass, '__invoke')) {
@@ -35,7 +31,8 @@ class Router
                     }
                 }
 
-                $controller = new $controllerName();
+                $controller = $info[KeyRoute::CONTROLLER->value];
+                $action = $info[KeyRoute::METHOD->value];
 
                 call_user_func_array([$controller, $action], $params);
                 return;

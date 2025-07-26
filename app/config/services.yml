@@ -1,6 +1,7 @@
 ERROR_CONTROLLER:
-  class: 
+  class: DevNoKage\ErrorController
   argument : []
+  
 DATABASE: 
   class: DevNoKage\Database
   argument : 
@@ -9,4 +10,40 @@ DATABASE:
    - "%DB_PORT%" 
    - "%DB_NAME%" 
    - "%DB_USER%" 
-   - "%DB_PASSWORD%" 
+   - "%DB_PASSWORD%"
+
+COMPTEUR_REPOSITORY:
+  class: Woyofal\Repository\CompteurRepository
+  argument:
+    - "@DATABASE"
+
+LOG_REPOSITORY:
+  class: Woyofal\Repository\LogRepository
+  argument:
+    - "@DATABASE"
+
+ACHAT_REPOSITORY:
+  class: Woyofal\Repository\AchatRepository
+  argument:
+    - "@DATABASE"
+
+COMPTEUR_SERVICE:
+  class: Woyofal\Service\CompteurService
+  argument:
+    - "@COMPTEUR_REPOSITORY"
+
+LOG_SERVICE:
+  class: Woyofal\Service\LogService
+  argument:
+    - "@LOG_REPOSITORY"
+
+ACHAT_SERVICE:
+  class: Woyofal\Service\AchatService
+  argument:
+    - "@ACHAT_REPOSITORY"
+
+COMPTEUR_CONTROLLER:
+  class: Woyofal\Controller\CompteurController
+  argument:
+    - "@COMPTEUR_SERVICE"
+ 

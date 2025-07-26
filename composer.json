@@ -15,7 +15,14 @@
             "DevNoKage\\Abstract\\": "app/core/abstract/",
             "DevNoKage\\Enums\\": "app/core/enums/",
             "DevNoKage\\Interface\\": "app/core/Interfaces/",
-            "DevNoKage\\": "app/core/"
+            "DevNoKage\\": "app/core/",
+            "Woyofal\\Entity\\": "src/entity/",
+            "Woyofal\\Controller\\Interface\\": "src/controller/Interfaces/",
+            "Woyofal\\Controller\\": "src/controller/",
+            "Woyofal\\Service\\Interface\\": "src/service/Interfaces/",
+            "Woyofal\\Service\\": "src/service/",
+            "Woyofal\\Repository\\Interface\\": "src/repository/Interfaces/",
+            "Woyofal\\Repository\\": "src/repository/"
         },
         "files": [
             "app/config/helpers.php"

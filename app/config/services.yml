@@ -1,9 +1,11 @@
 ERROR_CONTROLLER:
   class: DevNoKage\ErrorController
+  singleton: true
   argument : []
   
 DATABASE: 
   class: DevNoKage\Database
+  singleton: true
   argument : 
    - "%DB_DRIVE%" 
    - "%DB_HOST%" 
@@ -14,36 +16,105 @@ DATABASE:
 
 COMPTEUR_REPOSITORY:
   class: Woyofal\Repository\CompteurRepository
+  singleton: true
+  argument:
+    - "@DATABASE"
+
+TRANCHE_REPOSITORY: 
+  class: Woyofal\Repository\TrancheRepository
+  singleton: true
   argument:
     - "@DATABASE"
 
 LOG_REPOSITORY:
   class: Woyofal\Repository\LogRepository
+  singleton: true
   argument:
     - "@DATABASE"
 
 ACHAT_REPOSITORY:
   class: Woyofal\Repository\AchatRepository
+  singleton: true
   argument:
     - "@DATABASE"
 
 COMPTEUR_SERVICE:
   class: Woyofal\Service\CompteurService
+  singleton: true
   argument:
     - "@COMPTEUR_REPOSITORY"
 
+TRANCHE_SERVICE:
+  class: Woyofal\Service\TrancheService
+  singleton: true
+  argument:
+    - "@TRANCHE_REPOSITORY"
+
 LOG_SERVICE:
   class: Woyofal\Service\LogService
+  singleton: true
   argument:
     - "@LOG_REPOSITORY"
 
 ACHAT_SERVICE:
   class: Woyofal\Service\AchatService
+  singleton: true
   argument:
     - "@ACHAT_REPOSITORY"
-
-COMPTEUR_CONTROLLER:
-  class: Woyofal\Controller\CompteurController
-  argument:
     - "@COMPTEUR_SERVICE"
+    - "@TRANCHE_SERVICE"
+
+ACHAT_CONTROLLER:
+  class: Woyofal\Controller\AchatController
+  singleton: true
+  argument:
+    - "@ACHAT_SERVICE"
+    - "@LOG_SERVICE"
+
+ACHAT:
+  class: Woyofal\Entity\Achat
+  singleton: false
+  argument:
+    - "0"
+    - "0.0"
+    - ""
+    - ""
+    - "@TRANCHE"
+    - "@COMPTEUR"
+    - "0"
+
+COMPTEUR:
+  class: Woyofal\Entity\Compteur
+  singleton: false
+  argument:
+    - "@TRANCHE"
+    - ""
+    - "@CLIENT"
+    - "0"
  
+LOG:
+  class: Woyofal\Entity\Log
+  singleton: false
+  argument:
+    - ""
+    - "0"
+    - ""
+    - "0.0"
+    - "0"
+
+CLIENT:
+  class: Woyofal\Entity\Client
+  singleton: false
+  argument:
+    - ""
+    - ""
+    - "0"
+
+TRANCHE:
+  class: Woyofal\Entity\Tranche
+  singleton: false
+  argument:
+    - "0"
+    - "1"
+    - "0.0"
+    - "0"

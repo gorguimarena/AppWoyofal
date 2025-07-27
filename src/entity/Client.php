@@ -1,9 +1,27 @@
 <?php
 namespace Woyofal\Entity;
- 
-class Client {
+
+use DevNoKage\Abstract\AbstractEntity;
+
+class Client extends AbstractEntity {
     public function __construct(
-        public string $nom,
-        public string $prenom
+        private string $nom,
+        private string $prenom,
+        private int $id
     ) {}
+
+    public static function toObject(array $data): static {
+        return new static(
+            $data['nom'] ?? '',
+            $data['prenom'] ?? '',
+            isset($data['id']) ? intval($data['id']) : 0
+        );
+    }
+
+    public function toArray(): array {
+        return [
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+        ];
+    }
 }

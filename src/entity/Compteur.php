@@ -1,11 +1,35 @@
 <?php
+
 namespace Woyofal\Entity;
 
-class Compteur {
+use DevNoKage\Abstract\AbstractEntity;
+use DevNoKage\App;
+
+class Compteur extends AbstractEntity
+{
     public function __construct(
-        public int $id,
-        public Tranche $tranche,
-        public string $numero,
-        public Client $client
+        private Tranche $tranche,
+        private string $numero,
+        private Client $client,
+        private int $id 
     ) {}
+
+    public static function toObject(array $data): static
+    {
+        return new static(
+            Tranche::toObject($data),
+            $data['numero'],
+            Client::toObject($data),
+            isset($data['id']) ? intval($data['id']) : 0
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'tranche' => $this->tranche->toArray(),
+            'numero' => $this->numero,
+            'client' => $this->client->toArray(),
+        ];
+    }
 }

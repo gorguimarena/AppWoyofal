@@ -5,7 +5,7 @@ namespace DevNoKage;
 use DevNoKage\Interface\IDatabase;
 use PDO;
 
-class Database extends Singleton implements IDatabase
+class Database implements IDatabase
 {
     private ?PDO $pdo = null;
     private static array $configDefault = [
@@ -16,7 +16,6 @@ class Database extends Singleton implements IDatabase
 
     public function __construct(string $driver, string $host, $db_port, string $db_name, string $db_user, string $db_password)
     {
-
         try {
             $dsn = $driver . ':host=' . $host . ';port=' . $db_port . ';dbname=' . $db_name;
             $this->pdo = new PDO(

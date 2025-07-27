@@ -7,12 +7,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class App
 {
-
     private static array $dependencies;
+    private static array $container = []; 
 
     public static function getDependencie(ClassName $className): mixed
     {
-        self::$dependencies = Yaml::parseFile(SERVICES_PATH);
+        if (!isset(self::$dependencies)) {
+            self::$dependencies = Yaml::parseFile(SERVICES_PATH);
+        }
 
         if (!array_key_exists($className->value, self::$dependencies)) {
             throw new \Exception("La dépendance '{$className->value}' est introuvable dans services.yml.");
@@ -21,9 +23,14 @@ class App
         $definition = self::$dependencies[$className->value];
         $classNameStr = $definition['class'] ?? null;
         $arguments = $definition['argument'] ?? [];
+        $isSingleton = $definition['singleton'] ?? false;
 
         if (!$classNameStr || !class_exists($classNameStr)) {
             throw new \Exception("La classe '{$classNameStr}' n'existe pas pour le service '{$className->value}'.");
+        }
+
+        if ($isSingleton && isset(self::$container[$className->value])) {
+            return self::$container[$className->value];
         }
 
         try {
@@ -36,10 +43,7 @@ class App
                         $depClassName = ClassName::from($depKey);
                         $resolvedArgs[] = self::getDependencie($depClassName);
                     } elseif (preg_match('/^%(.+)%$/', $arg, $matches)) {
-
                         $constName = $matches[1];
-                        var_dump($constName);
-
                         if (defined($constName)) {
                             $resolvedArgs[] = constant($constName);
                         } else {
@@ -54,7 +58,13 @@ class App
             }
 
             $reflector = new \ReflectionClass($classNameStr);
-            return $reflector->newInstanceArgs($resolvedArgs);
+            $instance = $reflector->newInstanceArgs($resolvedArgs);
+
+            if ($isSingleton) {
+                self::$container[$className->value] = $instance;
+            }
+
+            return $instance;
         } catch (\ReflectionException $e) {
             throw new \Exception("Erreur lors de l’instanciation de '{$classNameStr}' : " . $e->getMessage());
         }

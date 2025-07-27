@@ -3,9 +3,8 @@
 namespace DevNoKage\Abstract;
 
 use DevNoKage\Response;
-use DevNoKage\Singleton;
 
-abstract class AbstractController extends Singleton
+abstract class AbstractController 
 {
 
     protected function renderJson(Response $response): void

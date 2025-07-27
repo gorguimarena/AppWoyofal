@@ -6,10 +6,8 @@ use Woyofal\Repository\Interface\ILogRepository;
 use Woyofal\Service\Interface\ILogService;
 
 class LogService implements ILogService{
-    private ILogRepository $logRepository;
 
-    public function __construct(ILogRepository $logRepository) {
-        $this->logRepository = $logRepository;
+    public function __construct(private ILogRepository $logRepository) {
     }
 
     public function save(Log $log): int {

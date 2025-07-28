@@ -82,6 +82,8 @@ ACHAT:
     - "@TRANCHE"
     - "@COMPTEUR"
     - "0"
+    - ""
+    - ""
 
 COMPTEUR:
   class: Woyofal\Entity\Compteur
@@ -118,3 +120,11 @@ TRANCHE:
     - "1"
     - "0.0"
     - "0"
+
+RESPONSE:
+  class: DevNoKage\Response
+  singleton: false
+  argument:
+    - "Les cles 'numero' et 'montant' sont obligation"
+    - null
+    - "400"

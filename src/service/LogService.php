@@ -7,7 +7,7 @@ use Woyofal\Service\Interface\ILogService;
 
 class LogService implements ILogService{
 
-    public function __construct(private ILogRepository $logRepository) {
+    public function __construct(protected ILogRepository $logRepository) {
     }
 
     public function save(Log $log): int {

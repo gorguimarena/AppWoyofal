@@ -25,6 +25,7 @@ class TrancheRepository extends AbstractRepository implements ITrancheRepository
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['kwt' => $kwt]);
         $data = $stmt->fetch();
+
         return $data ? Tranche::toObject($data) : null;
     }
 

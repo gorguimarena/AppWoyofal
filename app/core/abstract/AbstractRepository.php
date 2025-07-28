@@ -1,6 +1,8 @@
 <?php
 namespace DevNoKage\Abstract;
 
-class AbstractRepository {
+use DevNoKage\SetterGetter;
+
+class AbstractRepository extends SetterGetter{
     
 }

@@ -1,1 +1,10 @@
+POST  http://localhost:8080/achat HTTP/1.1
+content-type: application/json
+
+{
+    "numer": "COMP-0001",
+    "montant": "78282"
+}
+
+
 GET  http://localhost:8080 HTTP/1.1

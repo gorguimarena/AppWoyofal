@@ -8,7 +8,7 @@ use Woyofal\Service\Interface\ITrancheService;
 
 class TrancheService implements ITrancheService 
 {
-    public function __construct(private ITrancheRepository $itranche_repository) {}
+    public function __construct(protected ITrancheRepository $itranche_repository) {}
 
     public function get_by_consommation(float $kwt): ?Tranche
     {

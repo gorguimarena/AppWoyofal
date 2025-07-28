@@ -3,11 +3,12 @@
 namespace DevNoKage;
 
 use DevNoKage\Abstract\AbstractController;
+use DevNoKage\Enums\ClassName;
 
 class ErrorController extends AbstractController
 {
     public function _404(): void {
-        $res = new Response('Ressource not found !');
+        $res = App::getDependencie(ClassName::RESPONSE);
         $this->renderJson($res);
     }
 }

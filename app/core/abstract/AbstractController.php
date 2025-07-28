@@ -16,8 +16,6 @@ abstract class AbstractController
         header('Access-Control-Allow-Methods: GET, POST');
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-
-
         echo $response->toJson();
     }
 }

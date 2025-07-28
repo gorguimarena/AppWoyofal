@@ -7,15 +7,15 @@ use DevNoKage\Abstract\AbstractEntity;
 class Achat extends AbstractEntity
 {
     public function __construct(
-        private string $prix ,
-        private float $prix_kwt ,
-        private string $date,
-        private string $heure ,
-        private Tranche $tranche,
-        private Compteur $compteur,
-        private int $id ,
-        private string $reference = uniqid(),
-        private string $code_recharge = uniqid()
+        protected float $prix,
+        protected float $prix_kwt,
+        protected string $date,
+        protected string $heure ,
+        protected Tranche $tranche,
+        protected Compteur $compteur,
+        protected int $id ,
+        protected string $reference,
+        protected string $code_recharge
     ) {}
 
     public static function toObject(array $data): static

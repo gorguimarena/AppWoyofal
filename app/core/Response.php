@@ -1,4 +1,5 @@
 <?php
+
 namespace DevNoKage;
 
 use DevNoKage\Abstract\AbstractEntity;
@@ -6,23 +7,14 @@ use DevNoKage\Abstract\AbstractEntity;
 class Response extends AbstractEntity
 {
 
-    protected ?string $data;
-    protected string $message ;
-    protected Statut $status ;
-    protected int $code ;
 
     public function __construct(
-        string $message = '',
-        Statut $status = Statut::ERROR,
-        int $code = 404,
-        ?string $data = null,
+        protected string $message,
+        protected ?array $data,
+        protected int $code,
+        protected Statut $status = Statut::ERROR,
 
-    ) {
-        $this->data = $data;
-        $this->status = $status;
-        $this->code = $code;
-        $this->message = $message;
-    }
+    ) {}
 
 
     public function toArray(): array
@@ -36,6 +28,6 @@ class Response extends AbstractEntity
     }
     public static function toObject(array $data): static
     {
-        return new static();
+        return new static('', null, 404);
     }
 }

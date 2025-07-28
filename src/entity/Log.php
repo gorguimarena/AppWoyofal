@@ -6,12 +6,12 @@ use DevNoKage\Statut;
 
 class Log extends AbstractEntity {
     public function __construct(
-        private string $ip,
-        private int $numero_compteur,
-        private string $code_recharge,
-        private float $nombre_kwt,
-        private int $id,
-        private Statut $statut = Statut::ERROR,
+        protected string $ip,
+        protected int $numero_compteur,
+        protected string $code_recharge,
+        protected float $nombre_kwt,
+        protected int $id,
+        protected Statut $statut = Statut::ERROR,
     ) {}
 
     public static function toObject(array $data): static {

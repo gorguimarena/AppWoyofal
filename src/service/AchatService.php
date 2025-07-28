@@ -12,12 +12,12 @@ class AchatService implements IAchatService
 {
 
     public function __construct(
-        private IAchatRepository $achatRepository,
-        private ICompteurService $compteurService,
-        private ITrancheService $trancheService
+        protected IAchatRepository $achatRepository,
+        protected ICompteurService $compteurService,
+        protected ITrancheService $trancheService
     ) {}
 
-    public function save(Achat $achat): int
+    public function save(Achat $achat): ?Achat
     {
         $pdo = $this->achatRepository->pdo;
 
@@ -26,13 +26,15 @@ class AchatService implements IAchatService
 
             $compteur = $this->compteurService->get_by_numero($achat->compteur->numero);
             if (!$compteur) {
-                throw new \Exception("Le compteur n'existe pas.");
+                throw new \Exception("Le compteur n'existe pas.", 404);
             }
 
-            $totalMois = $this->achatRepository->consommationMoisEnCours($compteur->id);
-            $kwt_actuel = $this->estimerKwtParMontant($achat->prix, $compteur->tranche->prix_appro);
+            $achat->compteur = $compteur;
 
-            $consommationTotale = $totalMois + $kwt_actuel;
+            $totalMois = $this->achatRepository->consommationMoisEnCours($compteur->id);
+
+            $kwtActuel = $this->estimerKwtParMontant($achat->prix, $compteur->tranche->prix_appro);
+            $consommationTotale = $totalMois + $kwtActuel;
 
             $nouvelleTranche = $this->trancheService->get_by_consommation($consommationTotale);
 
@@ -41,20 +43,26 @@ class AchatService implements IAchatService
                 $compteur->tranche = $nouvelleTranche;
             }
 
-            // Étape 5 : Calcul du prix par kwt réel
             $achat->tranche = $compteur->tranche;
             $achat->prix_kwt = $compteur->tranche->prix_appro;
+            $achat->date = date('Y-m-d');
+            $achat->heure = date('H:i:s');
+            $achat->code_recharge = strtoupper(uniqid("RECHG"));
+            $achat->reference = strtoupper(uniqid("ACHAT-"));
 
-            // Étape 6 : Insertion de l’achat
             $id = $this->achatRepository->insert($achat);
+            if (!$id) {
+                throw new \Exception("Erreur lors de l'enregistrement de l'achat.", 500);
+            }
 
             $pdo->commit();
-            return $id;
-        } catch (\Throwable $e) {
+            return $achat;
+        } catch (\Exception $e) {
             $pdo->rollBack();
-            return 0;
+            throw new \Exception($e->getMessage(), $e->getCode() ?: 500);
         }
     }
+
 
     private function estimerKwtParMontant(float $montant, float $prix_kwh): float
     {

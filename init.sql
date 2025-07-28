@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS achat, log, compteur, client, tranche CASCADE;
 -- ============================
 CREATE TABLE tranche (
     id SERIAL PRIMARY KEY,
-    cons_min INT NOT NULL,
-    cons_max INT NOT NULL,
+    cons_min FLOAT NOT NULL,
+    cons_max FLOAT NOT NULL,
     prix_appro FLOAT NOT NULL
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE achat (
     code_recharge VARCHAR(100) NOT NULL,
     date DATE NOT NULL,
     heure TIME NOT NULL,
-    prix VARCHAR(50) NOT NULL,
+    prix FLOAT NOT NULL,
     prix_kwt FLOAT NOT NULL,
     tranche_id INT NOT NULL REFERENCES tranche(id) ON DELETE CASCADE,
     compteur_id INT NOT NULL REFERENCES compteur(id) ON DELETE CASCADE
@@ -84,5 +84,5 @@ INSERT INTO log (ip, statut, numero_compteur, code_recharge, nombre_kwt) VALUES
 ('192.168.1.2', 'ÉCHEC', 2, 'RECHG456', 10.0);
 
 INSERT INTO achat (reference, code_recharge, date, heure, prix, prix_kwt, tranche_id, compteur_id) VALUES
-('ACHAT-001', 'RECHG123', CURRENT_DATE, CURRENT_TIME, '5000', 25.5, 1, 1),
-('ACHAT-002', 'RECHG456', CURRENT_DATE, CURRENT_TIME, '7000', 30.0, 2, 2);
+('ACHAT-001', 'RECHG123', CURRENT_DATE, CURRENT_TIME, 5000.0, 25.5, 1, 1),
+('ACHAT-002', 'RECHG456', CURRENT_DATE, CURRENT_TIME, 7000.0, 30.0, 2, 2);

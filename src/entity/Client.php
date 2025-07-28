@@ -5,9 +5,9 @@ use DevNoKage\Abstract\AbstractEntity;
 
 class Client extends AbstractEntity {
     public function __construct(
-        private string $nom,
-        private string $prenom,
-        private int $id
+        protected string $nom,
+        protected string $prenom,
+        protected int $id
     ) {}
 
     public static function toObject(array $data): static {

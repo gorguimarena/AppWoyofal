@@ -27,4 +27,5 @@ enum ClassName: string {
     case COMPTEUR = "COMPTEUR";
     case LOG = "LOG";
     case TRANCHE = "TRANCHE";
+    case RESPONSE = "RESPONSE";
 }

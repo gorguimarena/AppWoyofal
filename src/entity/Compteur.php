@@ -8,18 +8,18 @@ use DevNoKage\App;
 class Compteur extends AbstractEntity
 {
     public function __construct(
-        private Tranche $tranche,
-        private string $numero,
-        private Client $client,
-        private int $id 
+        protected Tranche $tranche,
+        protected string $numero,
+        protected Client $client,
+        protected int $id 
     ) {}
 
     public static function toObject(array $data): static
     {
         return new static(
-            Tranche::toObject($data),
+            $data['tranche'],
             $data['numero'],
-            Client::toObject($data),
+            $data['client'],
             isset($data['id']) ? intval($data['id']) : 0
         );
     }

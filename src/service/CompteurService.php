@@ -9,7 +9,7 @@ use Woyofal\Service\Interface\ICompteurService;
 class CompteurService implements ICompteurService
 {
 
-    public function __construct(private ICompteurRepository $compteurRepository) {}
+    public function __construct(protected ICompteurRepository $compteurRepository) {}
 
     public function get_by_numero(string $numero): ?Compteur
     {

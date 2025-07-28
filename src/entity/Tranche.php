@@ -5,10 +5,10 @@ use DevNoKage\Abstract\AbstractEntity;
 
 class Tranche extends AbstractEntity {
     public function __construct(
-        private int $cons_min,
-        private int $cons_max,
-        private float $prix_appro,
-        private int $id
+        protected int $cons_min,
+        protected int $cons_max,
+        protected float $prix_appro,
+        protected int $id
     ) {}
 
     public static function toObject(array $data): static {
